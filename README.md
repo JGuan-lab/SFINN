@@ -8,7 +8,7 @@ For single-cell data, SFINN uses a cell neighborhood graph generated from shared
 
 The datasets analyzed in the paper are available at: https://zenodo.org/records/10558871
 
-## 2.Dependencies
+## 2. Dependencies
 
     Python == 3.6.2 
     Pytorch == 2.6.2
@@ -18,7 +18,7 @@ The datasets analyzed in the paper are available at: https://zenodo.org/records/
     spektral == 1.2.0
     pandas == 1.1.5
     numpy == 1.19.5
- ## 3.TASK 1, Evaluate SFINN on single-cell datasets
+ ## 3. TASK 1, Evaluate SFINN on single-cell datasets
 ### 3.1 Prepare data
     # If you have a ground truth data list with pairs like (gene a, x1) labeled as (0, 1, 2), please use the following code for processing to generate a file that divides the candidate gene pairs into interval indices:
 
@@ -64,7 +64,7 @@ The datasets analyzed in the paper are available at: https://zenodo.org/records/
 
     python SavePrResPic.py  --TFlength 13 --Epochs 200 --ModelResSave_Dir /home/dreameryty/.vscode/wyj/SFINN/sc-RNAseqData/bone/ModelRes --PrResPicSave_Dir /home/dreameryty/.vscode/wyj/SFINN/sc-RNAseqData/bone/PR_Res --UnionGenePairExpDataSavePath /home/dreameryty/.vscode/wyj/SFINN/sc-RNAseqDatabone/bone/UnionGenePariExpData
     python SaveRocResPic.py  --TFlength 13 --Epochs 200 --ModelResSave_Dir /home/dreameryty/.vscode/wyj/SFINN/sc-RNAseqData/bone/ModelRes  --RocResPicSave_Dir x/home/dreameryty/.vscode/wyj/SFINN/sc-RNAseqData/bone/ROC_Res --UnionGenePairExpDataSavePath /home/dreameryty/.vscode/wyj/SFINN/sc-RNAseqData/bone/UnionGenePariExpData
- ## 4.TASK 2, Evaluate SFINN on spatial transcriptome datasets
+ ## 4. TASK 2, Evaluate SFINN on spatial transcriptome datasets
 ### 4.1 Prepare data
     # Generate input data, please use:
 

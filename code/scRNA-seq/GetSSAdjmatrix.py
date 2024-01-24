@@ -1,16 +1,4 @@
-'''
-功能：用于生成样本-样本邻接矩阵数据。
-调用:python GetSSAdjmatrix.py --TFlength --ExpDataSavePath xx --GeneNameFilesSave_Dir --AdjDataSave_Dir xx --UnionGenePairExpDataSavePath xx  --IsBoneOrDend  True/False  --ExpDataFileisH5orCsv  h5/csv
 
-参数:
---TFlength  转录因子的数量
---ExpDataSavePath  数据集所在路径
---GeneNameFilesSave_Dir  基因名称文件所在路径
---AdjDataSave_Dir  邻接矩阵数据输出路径
---UnionGenePairExpDataSavePath 基因对联合表达数据所在路径
---IsBoneOrDend  是否为骨髓驱动的巨噬细胞或树突状细胞数据
---ExpDataFileisH5orCsv 是H5还是CSV格式文件
-'''
 import pandas as pd
 from numpy import *
 import json, re,os, sys
@@ -98,7 +86,7 @@ else:
     print('Error: ExpDataFileisH5orCsv is not h5 or csv')
 
 
-def GenesInvolvedInTrainingSet(indel_list,data_path): # cell type specific  ## random samples for reactome is not enough, need borrow some from keggp
+def GenesInvolvedInTrainingSet(indel_list,data_path): 
     import random
     import numpy as np
     import pandas as pd
@@ -144,7 +132,7 @@ def presbar(count):
     plt.xticks(np.arange(1,pca_reduction_scaled.shape[1]+1))
     plt.show()
     return 
-#获取向量   
+  
 def getvector(dict_y,i):
     vectors=[0]*pca_reduction_scaled.shape[1]
     for keys_k,values_v in dict_y:
@@ -162,9 +150,9 @@ for test_indel in range(1,4): ################## three fold cross validation
     print(data_train.shape)
   
     Genexp_mat=np.mat(data_train)
-    pca=PCA(n_components=0.9,svd_solver='full')#实例化
-    pca.fit(Genexp_mat)#拟合模型
-    pca_reduction=pca.transform(Genexp_mat)#获取降维后新数据
+    pca=PCA(n_components=0.9,svd_solver='full')
+    pca.fit(Genexp_mat)
+    pca_reduction=pca.transform(Genexp_mat)
     # pca_reduction=Genexp_mat
     nbrs = NearestNeighbors(n_neighbors=10, algorithm='ball_tree').fit(pca_reduction)
     distances, indices = nbrs.kneighbors(pca_reduction)
@@ -180,8 +168,7 @@ for test_indel in range(1,4): ################## three fold cross validation
         z=Findmax(pca_reduction_scaled[i])
         df_one.loc[i,'lables']='f('+str(z)+')'
         
-    #统计每个细胞K个近邻中标记的数量
-    #得到样本标记因子
+
     maxgene=np.argmax(pca_reduction_scaled,axis=1)+1
     maxgene_list=list(maxgene)
     indices_list=list(range(pca_reduction_scaled.shape[0]))
@@ -207,7 +194,7 @@ for test_indel in range(1,4): ################## three fold cross validation
     X=np.array(FN)
     Y = pdist(X, 'cityblock')
 
-# # #将浓缩矩阵还原得到距离矩阵
+
     distance_matrix = squareform(Y)
     distance_matrixs=1/(1+distance_matrix)
     distsim_to_thre = np.where(distance_matrixs>0.5, 1, 0)

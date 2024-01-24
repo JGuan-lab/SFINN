@@ -66,19 +66,19 @@ elif DatasetName=='ST_SCC_P2_1' or DatasetName=='ST_SCC_P2_2' or DatasetName=='S
 else:
     print('DatasetName input error ')    
 
-########## 读入基因对信息
+
 gene_pair_label = []
 s=open(GroundTrueSave_Dir)#'mmukegg_new_new_unique_rand_labelx.txt')#)   ### read the gene pair and label file
 for line in s:
     gene_pair_label.append(line)
 
-#########读取基因对列表索引信息
+
 gene_pair_index = GetSeprationIndex(SplitIndexFilesSave_Dir)#sys.argv[6]) # read file speration index
 s.close()
 
-#########产生基因对表达矩阵
+####generate gene pair
 gene_pair_label_array = array(gene_pair_label) 
-for i in range(len(gene_pair_index)-1):   #### many sperations
+for i in range(len(gene_pair_index)-1):   
     print (i)
     start_index = gene_pair_index[i]
     end_index = gene_pair_index[i+1]

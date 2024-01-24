@@ -1,12 +1,3 @@
-'''
-功能：用于三折交叉划分数据集。
-调用：python Dataset_Split.py --TFlength xx --TrainDataSaveDir xx --TestDataSaveDir xx --UnionGenePairExpDataSavePath xx
-参数:
---TFlength  转录因子的数量
---TrainDataSaveDir  训练数据保存路径
---TestDataSaveDir  测试数据保存路径
---UnionGenePairExpDataSavePath 基因对联合表达数据所在路径
-'''
 import argparse 
 import numpy as np
 from numpy import *
@@ -30,7 +21,7 @@ if not os.path.isdir(TrainDataSaveDir):
 if not os.path.isdir(TestDataSaveDir):
         os.makedirs(TestDataSaveDir)
         
-def Load_UnionGenePairData(indel_list,UnionGenePairExpDataSavePath): # cell type specific  ## random samples for reactome is not enough, need borrow some from keggp
+def Load_UnionGenePairData(indel_list,UnionGenePairExpDataSavePath): 
     import random
     import numpy as np
     xxdata_list = []

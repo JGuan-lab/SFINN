@@ -1,19 +1,3 @@
-'''
-功能：运行模型得到模型输出结果。
-调用:python SFINN.py --TFlength xx --AdjDataSave_Dir xx --ModelResSavePath xx [--Epochs] xx   [--Lr] xx [--L2_Reg] xx [--Es_Patience] xx [--Batch_Size] xx --UnionGenePairExpDataSavePath xx --TrainDataLoadDir xx --TestDataLoadDir xx
-参数:
-    --TFlength  转录因子的数量     
-    --AdjDataSave_Dir  邻接矩阵的输入路径    
-    --TrainDataLoadDir  训练集加载路径
-    --TestDataLoadDir    测试集加载路径     
-    --UnionGenePairExpDataSavePath  联合基因对表达数据的输入路径      
-    --ModelResSavePath  模型结果输出路径             
-    --Epochs  定性周期          
-    --Lr  学习率           
-    --L2_Reg  L2调节因子         
-    --Es_Patience  能够容忍多少个epoch内都没有improvement       
-    --Batch_Size 训练集样本数量
-'''
 import pandas as pd
 from numpy import *
 import numpy as np
@@ -22,7 +6,7 @@ import keras
 import pickle
 import tensorflow.compat.v1 as tf
 tf.disable_v2_behavior()
-#设置显存大小
+
 config=tf.compat.v1.ConfigProto()
 config.gpu_options.per_process_gpu_memory_fraction = 0.9
 tf.compat.v1.keras.backend.set_session(tf.compat.v1.Session(config=config))
@@ -90,7 +74,7 @@ L2_Reg=args.L2_Reg
 Batch_Size=args.Batch_Size
 Whole_Data_TF = [i for i in range(TFlength)]
 
-def Load_UnionGenePairData(indel_list,UnionGenePairExpDataSavePath): # cell type specific  ## random samples for reactome is not enough, need borrow some from keggp
+def Load_UnionGenePairData(indel_list,UnionGenePairExpDataSavePath): 
     import random
     import numpy as np
     xxdata_list = []
@@ -226,7 +210,7 @@ for test_indel in range(1,4): ################## three fold cross validation
     y_predict = model.predict(x_test)
     np.save(save_dirs + '/end_y_test.npy', y_test)
     np.save(save_dirs + '/end_y_predict.npy', y_predict)
-    ############################################################################## plot training process
+    ################################## plot training process
 
     plt.figure(figsize=(10, 6))
     plt.subplot(1, 2, 1)
@@ -246,11 +230,7 @@ for test_indel in range(1,4): ################## three fold cross validation
     plt.legend(['train', 'val'], loc='upper left')
     plt.grid()
     plt.savefig(save_dirs + '/end_result.pdf')
-    ###############################################################  
-    #######################################
 
-    #############################################################
-    #########################
     
     y_testy = y_test
     y_predicty = y_predict

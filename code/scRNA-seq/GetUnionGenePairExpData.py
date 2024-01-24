@@ -1,14 +1,4 @@
-'''
-功能：生成基因对联合表达数据。
-调用：python GetUnionGenePairExpData.py  --UnionGenePairExpDataSavePath  xx  --ExpDataSavePath xx --GeneNameFilesSave_Dir xx --SplitIndexFilesSave_Dir xx  --GroundTrueSave_Dir xx  --IsBoneOrDend True/False 
-参数:
---UnionGenePairExpDataSavePath  基因对联合表达数据输出路径
---ExpDataSavePath  数据集所在路径
---GeneNameFilesSave_Dir  基因名称文件所在路径
---SplitIndexFilesSave_Dir  基因对区间索引划分文件所在路径
---GroundTrueSave_Dir 真实网络对所在路径
---IsBoneOrDend  是否为骨髓驱动的巨噬细胞或树突状细胞数据
-'''
+
 import pandas as pd
 from numpy import *
 import json, re,os, sys
@@ -60,11 +50,11 @@ def GetSeprationIndex(file_path):
         index_list.append(int(line))
     return (np.array(index_list))
 
-GeneName_List =GeneNameList(GeneNameFilesSave_Dir) # 'sc_gene_list.txt')#
+GeneName_List =GeneNameList(GeneNameFilesSave_Dir) 
 
 ########## 读入基因对信息
 gene_pair_label = []
-s=open(GroundTrueSave_Dir)#'mmukegg_new_new_unique_rand_labelx.txt')#)   ### read the gene pair and label file
+s=open(GroundTrueSave_Dir)#'mmukegg_new_new_unique_rand_labelx.txt')#)   # read the gene pair and label file
 for line in s:
     gene_pair_label.append(line)
 
@@ -73,7 +63,7 @@ gene_pair_index = GetSeprationIndex(SplitIndexFilesSave_Dir)#sys.argv[6]) # read
 s.close()
 
 gene_pair_label_array = array(gene_pair_label) 
-# ########### 获取基因表达数据
+
 if ExpDataFileisH5orCsv == 'h5':
     store = pd.HDFStore(ExpDataSavePath)#'/home/yey3/sc_process_1/rank_total_gene_rpkm.h5')    # scRNA-seq expression data                        )#
     rpkm = store['/RPKMs']
@@ -90,7 +80,7 @@ elif ExpDataFileisH5orCsv == 'csv':
 else:
     print('Error: ExpDataFileisH5orCsv is not h5 or csv')
 
-#########产生基因对表达矩阵
+
 for i in range(len(gene_pair_index)-1):   #### many sperations
     print (i)
     start_index = gene_pair_index[i]

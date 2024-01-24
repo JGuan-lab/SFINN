@@ -1,15 +1,4 @@
-'''
-功能：可视化模型重建基因调控网络性能指标，在指定路径保存ROC图。
-调用：python SaveRocResPic.py  --TFlength xx --Epochs xx --ModelResSave_Dir xx  --RocResPicSave_Dir xx --
-UnionGenePairExpDataSavePath xx
-参数:
---TFlength  数据集转录因子数量
---Epochs  周期次数
---UnionGenePairExpDataSavePath  联合基因对基因表达数据保存路径
---ModelResSave_Dir  模型结果保存地址
---RocResPicSave_Dir  图片保存路径
 
-'''
 import os,sys
 import numpy as np
 import matplotlib
@@ -27,7 +16,7 @@ parse.add_argument('--ModelResSave_Dir',type=str,default='/home/dreameryty/.vsco
 parse.add_argument('--RocResPicSave_Dir',type=str,default='/home/dreameryty/.vscode/wyj/SFINN/sc-RNAseqData/mHSC-GM/ROC_Res',help='The output path of the resulting picture')
 args = parse.parse_args()
 
-def load_UnionGenePairData(indel_list,UnionGenePairExpDataSavePath): # cell type specific  ## random samples for reactome is not enough, need borrow some from keggp
+def load_UnionGenePairData(indel_list,UnionGenePairExpDataSavePath): 
     import random
     import numpy as np
     xxdata_list = []

@@ -54,7 +54,7 @@ if not os.path.isdir(AdjDataSave_Dir):
     
 current_path = os.path.abspath('.')
 
-#加载数据
+#load data
 if DatasetName=='seqFISH':
     print('The seqFISH dataset is loaded!')
     cortex_svz_counts = pd.read_csv(ExpDataSavePath)
@@ -102,7 +102,7 @@ for view_num in range(dataset_views):
     distance_list_list_2.append(distance_list)
 
 # np.save(current_path+'/seqfish_plus/distance_array.npy',np.array(distance_list_list))
-###try different distance threshold, so that on average, each cell has x neighbor cells, see Tab. S1 for results
+
 
 distance_array = np.array(distance_list_list)
 distance_matrix_threshold_I_list = []
@@ -208,16 +208,16 @@ for test_indel in range(1,4): ################## three fold cross validation
      
     data_train=cortex_svz_counts_N[gg_pair]
     Genexp_mat=np.mat(data_train)
-    pca=PCA(n_components=0.9,svd_solver='full')#实例化
-    pca.fit(Genexp_mat)#拟合模型
-    pca_reduction=pca.transform(Genexp_mat)#获取降维后新数据
+    pca=PCA(n_components=0.9,svd_solver='full')
+    pca.fit(Genexp_mat)
+    pca_reduction=pca.transform(Genexp_mat)
     # pca_reduction=Genexp_mat
     nbrs = NearestNeighbors(n_neighbors=10, algorithm='ball_tree').fit(pca_reduction)
     distances, indices = nbrs.kneighbors(pca_reduction)
 
     scaler = preprocessing.StandardScaler().fit(pca_reduction)
     pca_reduction_scaled = scaler.transform(pca_reduction)
-    print('降维后数据大小',pca_reduction_scaled.shape)
+    print('pca_reduction_scaled.shape',pca_reduction_scaled.shape)
     labels=['factor'+str(x) for x in range(0,pca_reduction_scaled.shape[1])]
     df_one=DataFrame(pca_reduction_scaled)
     df_one['lables']='factor'
@@ -231,8 +231,7 @@ for test_indel in range(1,4): ################## three fold cross validation
         z=Findmax(pca_reduction_scaled[i])
         df_one.loc[i,'lables']='f('+str(z)+')'
         
-    #统计每个细胞K个近邻中标记的数量
-    #得到样本标记因子
+    
     maxgene=np.argmax(pca_reduction_scaled,axis=1)+1
     maxgene_list=list(maxgene)
     indices_list=list(range(pca_reduction_scaled.shape[0]))
@@ -257,7 +256,7 @@ for test_indel in range(1,4): ################## three fold cross validation
         plt.xticks(np.arange(1,pca_reduction_scaled.shape[1]+1))
         plt.show()
         return 
-    #获取向量   
+    
     def getvector(dict_y,i):
         vectors=[0]*pca_reduction_scaled.shape[1]
         for keys_k,values_v in dict_y:
@@ -280,14 +279,14 @@ for test_indel in range(1,4): ################## three fold cross validation
     # normalize_corr = np.where(z1 >0.8, 1, 0)
     Y = pdist(X, 'cityblock')
 
-# # #将浓缩矩阵还原得到距离矩阵
+
     distance_matrix = squareform(Y)
     distance_matrixs=1/(1+distance_matrix)
     distsim_to_thre = np.where(distance_matrixs>0.5, 1, 0)
     # distance_matrixs=np.where(distance_matrix<10,1,0)
     
     
-    #加入空间信息
+    #add spatial imformations
     distsim_to_thre_flatten=distsim_to_thre.flatten()
     
     
@@ -301,6 +300,6 @@ for test_indel in range(1,4): ################## three fold cross validation
     join_mat=join_mat.reshape( distsim_to_thre.shape[0], distsim_to_thre.shape[1])
     np.save(AdjDataSave_Dir+'/'+str(test_indel)+'foldadj.npy', join_mat)
     
-    #不加空间信息
+    #not add spatial imformations
     # np.save(save_dirs+str(test_indel)+'foldadj.npy', distsim_to_thre)
     

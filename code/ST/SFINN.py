@@ -7,7 +7,7 @@ import pickle
 
 import tensorflow.compat.v1 as tf
 tf.disable_v2_behavior()
-#设置显存大小
+
 config=tf.compat.v1.ConfigProto()
 config.gpu_options.per_process_gpu_memory_fraction = 0.3
 tf.compat.v1.keras.backend.set_session(tf.compat.v1.Session(config=config))
@@ -83,7 +83,7 @@ whole_data_TF = [i for i in range(TFlength)]
 # adj=np.eye(adj.shape[-1], dtype=adj.dtype)
 # adj=np.float32(adj)
 # adj = sp.csr_matrix(adj)
-def Load_UnionGenePairData(indel_list,data_path): # cell type specific  ## random samples for reactome is not enough, need borrow some from keggp
+def Load_UnionGenePairData(indel_list,data_path): # cell type specific  
     import random
     import numpy as np
     xxdata_list = []
@@ -179,11 +179,8 @@ for test_indel in range(1,4): ################## three fold cross validation
     # fltr = normalized_laplacian(adj)
     # Model definition
     X_in = Input(shape=(N, F))
-    # Pass A as a fixed tensor, otherwise Keras will complain about inputs of
-    # different rank.
-    #针对非稀疏形式矩阵的语句
+    
     A_in = Input(tensor=tf.convert_to_tensor(fltr,dtype='float32'))
-    #针对稀疏矩阵的语句
     
     # A_in = Input(tensor=sp_matrix_to_sp_tensor(adj))
     nn=Dense(32, input_dim=2,activation='relu')(X_in)
@@ -215,9 +212,7 @@ for test_indel in range(1,4): ################## three fold cross validation
     early_stopping = EarlyStopping(monitor='val_acc', patience=Es_Patience, verbose=0, mode='auto')
     checkpoint1 = ModelCheckpoint(filepath=save_dirs + '/weights.{epoch:02d}-{val_loss:.2f}.hdf5', monitor='val_loss',verbose=1, save_best_only=False, save_weights_only=False, mode='auto', period=1)
     checkpoint2 = ModelCheckpoint(filepath=save_dirs + '/weights.hdf5', monitor='val_acc', verbose=1,save_best_only=True, mode='auto', period=1)
-   
-    
-    #指定TensorBoard读取的文件路径，可以新建一个
+
    
     callbacks = [checkpoint2, early_stopping]
 

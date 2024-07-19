@@ -8,6 +8,10 @@ For single-cell data, SFINN uses a cell neighborhood graph generated from shared
 
 The datasets analyzed in the paper are available at: https://zenodo.org/records/10558871
 
+SFINN corresponds to the following paper:
+
+Yongjie Wang, Fengfan Zhou, Jinting Guan, SFINN: inferring gene regulatory network from single-cell and spatial transcriptomic data with shared factor neighborhood and integrated neural network, Bioinformatics, 40(7): btae433. https://doi.org/10.1093/bioinformatics/btae433
+
 ## 2. Dependencies
 
     Python == 3.6.2 
